@@ -90,14 +90,14 @@ export default function VerifyEmailContent() {
             </h2>
             <p className="text-sm text-gray-500 mb-0">
               Your email has been verified successfully. You can now return to
-              the app and start using Myoga.
+              the app and start using MyOga.
             </p>
             <StoreButtons
               userType={userType}
               label={
                 userType === "rider"
-                  ? "Open the Myoga Rider app"
-                  : "Open the Myoga app"
+                  ? "Open the MyOga Rider app"
+                  : "Open the MyOga app"
               }
             />
           </>

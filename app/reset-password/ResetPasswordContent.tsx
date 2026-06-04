@@ -144,8 +144,8 @@ export default function ResetPasswordContent() {
               userType={userType}
               label={
                 userType === "rider"
-                  ? "Open the Myoga Rider app"
-                  : "Open the Myoga app"
+                  ? "Open the MyOga Rider app"
+                  : "Open the MyOga app"
               }
             />
           </>
