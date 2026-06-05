@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
 import AuthCard from "../components/AuthCard";
 import StoreButtons from "../components/StoreButtons";
@@ -35,6 +35,9 @@ export default function ResetPasswordContent() {
   const searchParams = useSearchParams();
   const oobCode = searchParams.get("oobCode");
   const userType = searchParams.get("userType") ?? "user";
+  const project = searchParams.get("project") ?? "myoga-80daa";
+
+  const auth = useMemo(() => getFirebaseAuth(project), [project]);
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -54,7 +57,7 @@ export default function ResetPasswordContent() {
         setStatus("error");
         setMessage("This link has expired or has already been used.");
       });
-  }, [oobCode]);
+  }, [auth, oobCode]);
 
   if (!oobCode) {
     return (

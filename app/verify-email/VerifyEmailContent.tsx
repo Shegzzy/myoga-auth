@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { auth } from "@/lib/firebase";
 import { applyActionCode } from "firebase/auth";
 import AuthCard from "../components/AuthCard";
 import StoreButtons from "../components/StoreButtons";
+import { getFirebaseAuth } from "@/lib/firebase";
 
 export default function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const oobCode = searchParams.get("oobCode");
   const userType = searchParams.get("userType") ?? "user";
+  const project = searchParams.get("project") ?? "myoga-80daa";
+  const auth = useMemo(() => getFirebaseAuth(project), [project]);
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
   );
@@ -33,7 +35,7 @@ export default function VerifyEmailContent() {
             : `Something went wrong: ${error.code}`,
         );
       });
-  }, [oobCode]);
+  }, [auth, oobCode]);
 
   if (!oobCode) {
     return (
