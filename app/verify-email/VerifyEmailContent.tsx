@@ -18,14 +18,19 @@ export default function VerifyEmailContent() {
 
   useEffect(() => {
     if (!oobCode) return;
+
+    console.log("oobCode received:", oobCode);
+    console.log("Firebase project:", auth.app.options.projectId);
+
     applyActionCode(auth, oobCode)
       .then(() => setStatus("success"))
       .catch((error) => {
+        console.error("applyActionCode error:", error.code, error.message);
         setStatus("error");
         setMessage(
           error.code === "auth/invalid-action-code"
             ? "This link has expired or has already been used."
-            : "Something went wrong. Please try again.",
+            : `Something went wrong: ${error.code}`,
         );
       });
   }, [oobCode]);
