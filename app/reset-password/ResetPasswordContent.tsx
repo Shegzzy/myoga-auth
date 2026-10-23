@@ -6,6 +6,7 @@ import { getFirebaseAuth } from "@/lib/firebase";
 import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
 import AuthCard from "../components/AuthCard";
 import StoreButtons from "../components/StoreButtons";
+import { COMPANY_DASHBOARD_URL } from "@/lib/companyDashboard";
 
 const rules = [
   { id: "len", label: "8+ characters", test: (v: string) => v.length >= 8 },
@@ -139,18 +140,38 @@ export default function ResetPasswordContent() {
             <h2 className="text-xl font-bold text-[#00002e] mb-2">
               Password updated!
             </h2>
-            <p className="text-sm text-gray-500">
-              Your password has been reset. Open the app to log in with your new
-              password.
-            </p>
-            <StoreButtons
-              userType={userType}
-              label={
-                userType === "rider"
-                  ? "Open the MyOga Rider app"
-                  : "Open the MyOga app"
-              }
-            />
+            {userType === "company" ? (
+              <>
+                <p className="text-sm text-gray-500 mb-6">
+                  Your password has been reset. Sign in to your company
+                  dashboard with your new password.
+                </p>
+                <a
+                  href={`${
+                    COMPANY_DASHBOARD_URL[project] ??
+                    COMPANY_DASHBOARD_URL["myoga-80daa"]
+                  }/login`}
+                  className="block w-full rounded-xl bg-[#00002e] py-3.5 text-center text-sm font-bold text-white"
+                >
+                  Sign in to dashboard
+                </a>
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-gray-500">
+                  Your password has been reset. Open the app to log in with your
+                  new password.
+                </p>
+                <StoreButtons
+                  userType={userType}
+                  label={
+                    userType === "rider"
+                      ? "Open the MyOga Rider app"
+                      : "Open the MyOga app"
+                  }
+                />
+              </>
+            )}
           </>
         ) : (
           <>

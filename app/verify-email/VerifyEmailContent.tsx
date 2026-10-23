@@ -6,6 +6,7 @@ import { applyActionCode } from "firebase/auth";
 import AuthCard from "../components/AuthCard";
 import StoreButtons from "../components/StoreButtons";
 import { getFirebaseAuth } from "@/lib/firebase";
+import { COMPANY_DASHBOARD_URL } from "@/lib/companyDashboard";
 
 export default function VerifyEmailContent() {
   const searchParams = useSearchParams();
@@ -95,18 +96,38 @@ export default function VerifyEmailContent() {
             <h2 className="text-xl font-bold text-[#00002e] mb-2">
               Email verified!
             </h2>
-            <p className="text-sm text-gray-500 mb-0">
-              Your email has been verified successfully. You can now return to
-              the app and start using MyOga.
-            </p>
-            <StoreButtons
-              userType={userType}
-              label={
-                userType === "rider"
-                  ? "Open the MyOga Rider app"
-                  : "Open the MyOga app"
-              }
-            />
+            {userType === "company" ? (
+              <>
+                <p className="text-sm text-gray-500 mb-6">
+                  Your email has been verified successfully. Return to your
+                  company dashboard to upload your KYC documents.
+                </p>
+                <a
+                  href={
+                    COMPANY_DASHBOARD_URL[project] ??
+                    COMPANY_DASHBOARD_URL["myoga-80daa"]
+                  }
+                  className="block w-full rounded-xl bg-[#00002e] py-3.5 text-center text-sm font-bold text-white"
+                >
+                  Continue to dashboard
+                </a>
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-gray-500 mb-0">
+                  Your email has been verified successfully. You can now return
+                  to the app and start using MyOga.
+                </p>
+                <StoreButtons
+                  userType={userType}
+                  label={
+                    userType === "rider"
+                      ? "Open the MyOga Rider app"
+                      : "Open the MyOga app"
+                  }
+                />
+              </>
+            )}
           </>
         )}
 
